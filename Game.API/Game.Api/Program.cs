@@ -1,4 +1,7 @@
 using Game.Application;
+using Game.Application.Interfaces;
+using Game.Infrastructure.Persistence.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +12,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Se registra la DB
+builder.Services.AddDbContext<DbGameContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion"));
+});
+
+builder.Services.AddTransient<IApplicationDbContext, DbGameContext>();
+
 builder.Services.AddApplicationServices();
+
+
 
 var app = builder.Build();
 
