@@ -18,6 +18,7 @@ CREATE TABLE jugador (
     nombre_jugador NVARCHAR(100) NOT NULL,
     fecha_registro DATETIME DEFAULT GETDATE()
 );
+select * from jugador
 CREATE TABLE partida (
     id_partida INT PRIMARY KEY IDENTITY(1,1),
     id_jugador1 INT NOT NULL,
