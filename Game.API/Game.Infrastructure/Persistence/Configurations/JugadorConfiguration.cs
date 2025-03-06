@@ -1,6 +1,7 @@
 ﻿using Game.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Game.Infrastructure.Persistence.Configurations
 {
@@ -8,7 +9,7 @@ namespace Game.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Jugador> builder)
         {
-            builder.HasKey(e => e.IdJugador).HasName("PK__jugador__75BB83E277F32573");
+            builder.HasKey(e => e.IdJugador).HasName("PK__jugador__75BB83E2AA636C4F");
 
             builder.ToTable("jugador");
 

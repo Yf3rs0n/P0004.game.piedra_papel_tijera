@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Game.Domain.Entities
 {
-    public class Jugador
+    public partial class Jugador
     {
         public int IdJugador { get; set; }
 
@@ -14,5 +9,8 @@ namespace Game.Domain.Entities
 
         public DateTime? FechaRegistro { get; set; }
 
+        public virtual ICollection<Partida> PartidumIdJugador1Navigations { get; set; } = new List<Partida>();
+
+        public virtual ICollection<Partida> PartidumIdJugador2Navigations { get; set; } = new List<Partida>();
     }
 }

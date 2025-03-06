@@ -1,34 +1,35 @@
-﻿using Game.Application.Interfaces;
+﻿using AutoMapper;
+using Game.Application.Common;
+using Game.Application.DTOs;
+using Game.Application.Interfaces;
 using Game.Domain.Entities;
 using MediatR;
 
 namespace Game.Application.Commands
 {
-    public class InsertarJugadorCommand : IRequest<bool>
-    {
-        public string NombreJugador { get; set; }
-    }
-    public class InsertarJugadorCommandHandler : IRequestHandler<InsertarJugadorCommand, bool>
-    {
-        private readonly IApplicationDbContext _context;
+    public record InsertarJugadorCommand(string nombreJugador) : IRequest<ApiResponse<JugadorDto>>;
 
-        public InsertarJugadorCommandHandler(IApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public class InsertarJugadorCommandHandler(IApplicationDbContext context, IMapper mapper): IRequestHandler<InsertarJugadorCommand, ApiResponse<JugadorDto>>
+    {
+        private readonly IApplicationDbContext _context = context;
+        private readonly IMapper _mapper = mapper;
 
-        public async Task<bool> Handle(InsertarJugadorCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<JugadorDto>> Handle(InsertarJugadorCommand request, CancellationToken cancellationToken)
         {
             var jugador = new Jugador
             {
-                NombreJugador = request.NombreJugador,
-                FechaRegistro = DateTime.Now,
+                NombreJugador = request.nombreJugador
             };
 
-            await _context.Jugadors.AddAsync(jugador, cancellationToken);
-            var rows = await _context.SaveChangesAsync(cancellationToken);
+            _context.Jugadors.Add(jugador);
+            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            return rows > 0;
+            var jugadorDto = _mapper.Map<JugadorDto>(jugador);
+
+            return result
+                ? new ApiResponse<JugadorDto>("Jugador insertado correctamente", true, jugadorDto)
+                : new ApiResponse<JugadorDto>("Error al insertar el jugador", false, null);
         }
     }
 }
+

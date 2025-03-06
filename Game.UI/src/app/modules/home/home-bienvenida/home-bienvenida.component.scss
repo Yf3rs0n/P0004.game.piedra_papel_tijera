@@ -1,0 +1,11 @@
+.container1 {
+    display: flex;
+    justify-content: center;
+}
+
+::ng-deep .p-card-header {
+    height: 50%;
+}
+::ng-deep .p-card .p-card-title {
+    text-align: center;
+}

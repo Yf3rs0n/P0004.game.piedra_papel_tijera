@@ -12,13 +12,14 @@ VALUES
 ('Piedra', 'Tijera'),
 ('Tijera', 'Papel');
 
-select * from regla
+-- se crea un jugador y se devulve el id para crear la partida
 CREATE TABLE jugador (
     id_jugador INT PRIMARY KEY IDENTITY(1,1),
     nombre_jugador NVARCHAR(100) NOT NULL,
     fecha_registro DATETIME DEFAULT GETDATE()
 );
-select * from jugador
+
+
 CREATE TABLE partida (
     id_partida INT PRIMARY KEY IDENTITY(1,1),
     id_jugador1 INT NOT NULL,
@@ -29,6 +30,8 @@ CREATE TABLE partida (
     FOREIGN KEY (id_jugador1) REFERENCES jugador(id_jugador),
     FOREIGN KEY (id_jugador2) REFERENCES jugador(id_jugador)
 );
+
+
 CREATE TABLE ronda (
     id_ronda INT PRIMARY KEY IDENTITY(1,1),
     id_partida INT NOT NULL,
@@ -40,7 +43,8 @@ CREATE TABLE ronda (
     FOREIGN KEY (id_partida) REFERENCES partida(id_partida),
     FOREIGN KEY (id_regla) REFERENCES regla(id_regla)
 );
-
+select * from jugador
+select * from regla
 
 CREATE PROCEDURE sp_insertar_ronda (
     @id_partida INT,

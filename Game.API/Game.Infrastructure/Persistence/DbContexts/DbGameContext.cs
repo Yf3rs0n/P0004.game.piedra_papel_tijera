@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using Game.Application.Interfaces;
 using Game.Domain.Entities;
 using Game.Infrastructure.Persistence.Configurations;
@@ -20,10 +19,19 @@ public partial class DbGameContext : DbContext, IApplicationDbContext
 
     public virtual DbSet<Jugador> Jugadors { get; set; }
 
+    public virtual DbSet<Partida> Partida { get; set; }
+
+    public virtual DbSet<Regla> Reglas { get; set; }
+
+    public virtual DbSet<Ronda> Ronda { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new JugadorConfiguration());
+        modelBuilder.ApplyConfiguration(new PartidaConfiguration());
+        modelBuilder.ApplyConfiguration(new ReglaConfiguration());
+        modelBuilder.ApplyConfiguration(new RondaConfiguration());
 
         OnModelCreatingPartial(modelBuilder);
     }
